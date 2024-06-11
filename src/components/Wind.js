@@ -40,8 +40,6 @@ const CompassContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CompassIcon = styled('img')(({ theme }) => ({
-  width: '100px',
-  height: '100px',
   marginBottom: theme.spacing(2),
 }));
 
@@ -174,7 +172,7 @@ const Wind = ({ lat, lon }) => {
       <Typography variant="h6" sx={{ fontWeight: 'bold', color: theme.palette.text.primary, marginTop: theme.spacing(2) }}>
         {t('wind_speed')}
       </Typography>
-      <CompassIcon src={compassSvg} alt={t('compass')} />
+      <CompassIcon src={compassSvg} alt={t('compass')} className="weather-icon" />
       <CompassContainer>
         <CompassPoints>
           <div className="N">{t('north')}</div>
