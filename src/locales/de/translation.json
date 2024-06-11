@@ -157,5 +157,21 @@
 "historical_air_quality": "Historische Luftqualität",
 "date": "Datum: {{date}}",
 "refresh": "Aktualisieren",
-"light_drizzle": "Leichter Nieselregen"
+"light_drizzle": "Leichter Nieselregen",
+"compass": "Kompass",
+"north": "N",
+"northeast": "NO",
+"east": "O",
+"southeast": "SO",
+"south": "S",
+"southwest": "SW",
+"west": "W",
+"northwest": "NW",
+"speed": "Geschwindigkeit",
+"direction": "Richtung",
+"error_fetching_wind_data": "Fehler beim Abrufen der Winddaten",
+"Time": "Zeit",
+"Condition": "Bedingung",
+"Temperature": "Temperatur",
+"no_forecast_data_available": "Keine Vorhersagedaten verfügbar"
 }

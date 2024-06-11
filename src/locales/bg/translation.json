@@ -149,5 +149,21 @@
   "historical_air_quality": "Историческо качество на въздуха",
   "date": "Дата: {{date}}",
   "refresh": "Обновяване",
-  "light_drizzle": "Лек ръмеж"
+  "light_drizzle": "Лек ръмеж",
+  "compass": "Компас",
+  "north": "С",
+  "northeast": "СИ",
+  "east": "И",
+  "southeast": "ЮИ",
+  "south": "Ю",
+  "southwest": "ЮЗ",
+  "west": "З",
+  "northwest": "СЗ",
+  "speed": "Скорост",
+  "direction": "Посока",
+  "error_fetching_wind_data": "Грешка при получаване на данни за вятъра",
+  "Time": "Час",
+  "Condition": "Условия",
+  "Temperature": "Температура",
+  "no_forecast_data_available": "Няма налични данни за прогнозата"
 }

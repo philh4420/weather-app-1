@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 // Common settings for all themes
 const commonSettings = {
   typography: {
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    fontFamily: "'San Francisco', 'Roboto', 'Helvetica', 'Arial', sans-serif",
     h1: {
       fontSize: '2.75rem',
       fontWeight: 700,
@@ -39,9 +39,6 @@ const commonSettings = {
       fontWeight: 600,
     },
   },
-  // shape: {
-  //   borderRadius: 16,
-  // },
   spacing: 8,
   components: {
     MuiButton: {
@@ -50,6 +47,10 @@ const commonSettings = {
           borderRadius: 16,
           textTransform: 'none',
           padding: '12px 24px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          '&:hover': {
+            boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
+          },
         },
       },
     },
@@ -57,7 +58,10 @@ const commonSettings = {
       styleOverrides: {
         root: {
           borderRadius: 16,
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          '&:hover': {
+            boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
+          },
         },
       },
     },
@@ -115,18 +119,18 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#bb86fc',
+      main: '#0a84ff',
     },
     secondary: {
-      main: '#03dac6',
+      main: '#ff375f',
     },
     background: {
-      default: '#121212',
-      paper: '#1d1d1d',
+      default: '#1c1c1e',
+      paper: '#2c2c2e',
     },
     text: {
       primary: '#ffffff',
-      secondary: '#b0bec5',
+      secondary: '#b0b0b5',
     },
     scrollbar: {
       thumb: '#888',
@@ -137,9 +141,9 @@ const darkTheme = createTheme({
     MuiSelect: {
       styleOverrides: {
         select: {
-          backgroundColor: '#1d1d1d',
+          backgroundColor: '#2c2c2e',
           '&:focus': {
-            backgroundColor: '#1d1d1d',
+            backgroundColor: '#2c2c2e',
           },
         },
       },
@@ -147,9 +151,9 @@ const darkTheme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          backgroundColor: '#1d1d1d',
+          backgroundColor: '#2c2c2e',
           '&:hover': {
-            backgroundColor: '#333',
+            backgroundColor: '#3a3a3c',
           },
         },
       },
@@ -158,7 +162,10 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 16,
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          '&:hover': {
+            boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
+          },
         },
       },
     },
@@ -171,21 +178,21 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#1e88e5',
+      main: '#007aff',
     },
     secondary: {
-      main: '#e53935',
+      main: '#ff3b30',
     },
     background: {
-      default: '#ffffff',
-      paper: '#f5f5f5',
+      default: '#f0f0f5',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#000000',
-      secondary: '#757575',
+      primary: '#1c1c1e',
+      secondary: '#2c2c2e',
     },
     scrollbar: {
-      thumb: '#1e88e5',
+      thumb: '#007aff',
       thumbHover: '#555',
     },
   },
@@ -193,9 +200,9 @@ const lightTheme = createTheme({
     MuiSelect: {
       styleOverrides: {
         select: {
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#ffffff',
           '&:focus': {
-            backgroundColor: '#f5f5f5',
+            backgroundColor: '#ffffff',
           },
         },
       },
@@ -203,9 +210,9 @@ const lightTheme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#ffffff',
           '&:hover': {
-            backgroundColor: '#e0e0e0',
+            backgroundColor: '#e5e5ea',
           },
         },
       },
@@ -214,7 +221,10 @@ const lightTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 16,
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          '&:hover': {
+            boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
+          },
         },
       },
     },

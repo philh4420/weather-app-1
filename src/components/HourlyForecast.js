@@ -10,12 +10,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { fetchWeatherAPIData } from '../api/weatherAPI';
 import { styled } from '@mui/system';
-import { Refresh as RefreshIcon } from '@mui/icons-material';
+import { Refresh as RefreshIcon, AccessTime as TimeIcon, Thermostat as TemperatureIcon } from '@mui/icons-material';
+import InfoBox from './InfoBox';
 
 const ScrollableGrid = styled('div')(({ theme }) => ({
   display: 'flex',
   overflowX: 'auto',
-  padding: '10px 16px',  // Add padding to the ScrollableGrid
+  padding: '10px 16px',
   whiteSpace: 'nowrap',
   '&::-webkit-scrollbar': {
     height: '10px',
@@ -34,9 +35,9 @@ const ScrollableGrid = styled('div')(({ theme }) => ({
 const ForecastItem = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[3],
-  minWidth: '100px',
+  minWidth: '150px',
   marginBottom: theme.spacing(2),
-  marginRight: theme.spacing(2), // Add margin right to create space between items
+  marginRight: theme.spacing(2),
   flexShrink: 0,
   textAlign: 'center',
   padding: theme.spacing(2),
@@ -117,16 +118,21 @@ const HourlyForecast = ({ lat, lon }) => {
 
           return (
             <ForecastItem key={index} theme={theme}>
-              <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}>
-                {new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </Typography>
-              <img src={hour.condition.icon} alt={hour.condition.text} className="weather-icon-1" />
-              <Typography variant="body2" sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}>
-                {hour.temp_c}°C
-              </Typography>
-              <Typography variant="body2" sx={{ fontStyle: 'italic', color: theme.palette.text.secondary }}>
-                {t(conditionTextKey, { defaultValue: hour.condition.text })}
-              </Typography>
+              <InfoBox
+                icon={<TimeIcon />}
+                label={t('Time')}
+                value={new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              />
+              <InfoBox
+                icon={<img src={hour.condition.icon} alt={hour.condition.text} className="weather-icon-1" />}
+                label={t('Condition')}
+                value={t(conditionTextKey, { defaultValue: hour.condition.text })}
+              />
+              <InfoBox
+                icon={<TemperatureIcon />}
+                label={t('Temperature')}
+                value={`${hour.temp_c}°C`}
+              />
             </ForecastItem>
           );
         })}

@@ -20,6 +20,7 @@ import {
 } from '@mui/icons-material';
 import { fetchOpenWeatherMap5DayData } from '../api/openWeatherMapAPI';
 import { styled } from '@mui/system';
+import InfoBox from './InfoBox';
 
 const iconMapping = {
   "01d": "clear-day.svg",
@@ -52,18 +53,6 @@ const ForecastItem = styled(Card)(({ theme }) => ({
     boxShadow: theme.shadows[6],
   },
 }));
-
-const InfoBox = ({ icon, label, value }) => {
-  const theme = useTheme();
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center', mb: theme.spacing(1) }}>
-      {icon}
-      <Typography variant="body1" sx={{ ml: theme.spacing(1) }}>
-        {label}: {value}
-      </Typography>
-    </Box>
-  );
-};
 
 const FiveDayForecast = ({ lat, lon }) => {
   const { t } = useTranslation();
@@ -131,6 +120,7 @@ const FiveDayForecast = ({ lat, lon }) => {
 
   const currentDate = new Date().toLocaleDateString();
 
+  // Group forecast data by date, excluding the current date
   const groupedData = forecastData.list.reduce((acc, curr) => {
     const date = new Date(curr.dt_txt).toLocaleDateString();
     if (date !== currentDate) {
@@ -157,7 +147,7 @@ const FiveDayForecast = ({ lat, lon }) => {
       </Typography>
       <Grid container spacing={2} justifyContent="center">
         {Object.keys(groupedData).map((date, index) => (
-          <Grid item xs={12} sm={8} md={6} lg={2.4} key={index}>
+          <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
             <ForecastItem sx={{ height: '100%' }}>
               <CardContent sx={{ p: 2 }}>
                 <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
@@ -168,7 +158,7 @@ const FiveDayForecast = ({ lat, lon }) => {
                   const weatherIcon = forecast.weather[0].icon;
 
                   return (
-                    <Box key={idx} sx={{ mb: 2 }}>
+                    <Box key={idx} sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                       <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                         {new Date(forecast.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </Typography>
@@ -182,10 +172,12 @@ const FiveDayForecast = ({ lat, lon }) => {
                           {t(weatherDescription, { defaultValue: forecast.weather[0].description })}
                         </Typography>
                       </Box>
-                      <InfoBox icon={<ThermostatIcon />} label={t('temperature')} value={`${forecast.main.temp}°C`} />
-                      <InfoBox icon={<OpacityIcon />} label={t('humidity')} value={`${forecast.main.humidity}%`} />
-                      <InfoBox icon={<SpeedIcon />} label={t('pressure')} value={`${forecast.main.pressure} hPa`} />
-                      <InfoBox icon={<CloudIcon />} label={t('cloudiness')} value={`${forecast.clouds.all}%`} />
+                      <Box display="flex" flexDirection="column" alignItems="center">
+                        <InfoBox icon={<ThermostatIcon />} label={t('temperature')} value={`${forecast.main.temp}°C`} />
+                        <InfoBox icon={<OpacityIcon />} label={t('humidity')} value={`${forecast.main.humidity}%`} />
+                        <InfoBox icon={<SpeedIcon />} label={t('pressure')} value={`${forecast.main.pressure} hPa`} />
+                        <InfoBox icon={<CloudIcon />} label={t('cloudiness')} value={`${forecast.clouds.all}%`} />
+                      </Box>
                     </Box>
                   );
                 })}

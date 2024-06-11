@@ -159,5 +159,21 @@
     "historical_air_quality": "Qualité de l'air historique",
     "date": "Date: {{date}}",
     "refresh": "Rafraîchir",
-    "light_drizzle": "Bruine légère"
+    "light_drizzle": "Bruine légère",
+    "compass": "Boussole",
+    "north": "N",
+    "northeast": "NE",
+    "east": "E",
+    "southeast": "SE",
+    "south": "S",
+    "southwest": "SO",
+    "west": "O",
+    "northwest": "NO",
+    "speed": "Vitesse",
+    "direction": "Direction",
+    "error_fetching_wind_data": "Erreur lors de la récupération des données du vent",
+    "Time": "Heure",
+    "Condition": "Condition",
+    "Temperature": "Température",
+    "no_forecast_data_available": "Aucune donnée de prévision disponible"
 }

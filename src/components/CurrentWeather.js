@@ -14,7 +14,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
 import InfoBox from './InfoBox';
-import './Weather.css'; // Import the CSS file
 
 const iconMapping = {
   "01d": "clear-day.svg",
@@ -115,8 +114,11 @@ const CurrentWeather = ({ lat, lon }) => {
 
   return (
     <Card sx={{
-      width: '100%', height: '100%', borderRadius: theme.shape.borderRadius, boxShadow: theme.shadows[4], position: 'relative',
-      background: theme.palette.mode === 'dark' ? theme.palette.background.paper : 'linear-gradient(to right, #f7f8f9, #f1f2f3)',
+      width: '100%',
+      borderRadius: theme.shape.borderRadius,
+      boxShadow: theme.shadows[4],
+      position: 'relative',
+      padding: theme.spacing(3),
     }}>
       <Tooltip title={t('refresh')} arrow>
         <IconButton
@@ -126,43 +128,43 @@ const CurrentWeather = ({ lat, lon }) => {
           <RefreshIcon />
         </IconButton>
       </Tooltip>
-      <CardContent sx={{ padding: theme.spacing(2.5) }}>
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(3) }}
-        >
-          {t('current_weather_in', { city: name })}
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(3) }}
+      >
+        {t('current_weather_in', { city: name })}
+      </Typography>
+      <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 2 }}>
+        {weatherIcon && (
+          <img src={weatherIcon} alt={weather[0].description} className="weather-icon" />
+        )}
+        <Typography variant="h6" sx={{ fontWeight: theme.typography.h6.fontWeight, ml: 2 }}>
+          {t(weatherDescription, { defaultValue: weather[0].description })}
         </Typography>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
-            <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 2 }}>
-              {weatherIcon && (
-                <img src={weatherIcon} alt={weather[0].description} className="weather-icon" />
-              )}
-              <Typography variant="h6" sx={{ fontWeight: theme.typography.h6.fontWeight, ml: 2 }}>
-                {t(weatherDescription, { defaultValue: weather[0].description })}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={4}>
+      </Box>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12} sm={6} md={4}>
+          <Box display="flex" flexDirection="column" alignItems="center">
             <InfoBox icon={<ThermostatIcon />} label={t('temperature')} value={`${temp}°C`} />
             <InfoBox icon={<ThermostatIcon />} label={t('feels_like')} value={`${feels_like}°C`} />
             <InfoBox icon={<ArrowDownwardIcon />} label={t('temp_min')} value={`${temp_min}°C`} />
             <InfoBox icon={<ArrowUpwardIcon />} label={t('temp_max')} value={`${temp_max}°C`} />
             <InfoBox icon={<OpacityIcon />} label={t('humidity')} value={`${humidity}%`} />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Box display="flex" flexDirection="column" alignItems="center">
             <InfoBox icon={<SpeedIcon />} label={t('pressure')} value={`${pressure} hPa`} />
             <InfoBox icon={<CloudIcon />} label={t('cloudiness')} value={`${cloudiness}%`} />
             <InfoBox icon={<VisibilityIcon />} label={t('visibility')} value={`${visibility} m`} />
             <InfoBox icon={<WindPowerIcon />} label={t('wind_speed')} value={`${speed} m/s`} />
             {gust && <InfoBox icon={<WindPowerIcon />} label={t('wind_gust')} value={`${gust} m/s`} />}
             <InfoBox icon={<ExploreIcon />} label={t('wind_direction')} value={`${deg}°`} />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Box display="flex" flexDirection="column" alignItems="center">
             {weatherData.clouds && (
               <InfoBox icon={<CloudQueueIcon />} label={t('cloud_coverage')} value={`${weatherData.clouds.all}%`} />
             )}
@@ -174,17 +176,19 @@ const CurrentWeather = ({ lat, lon }) => {
             )}
             <InfoBox icon={<WbSunnyIcon />} label={t('sunrise')} value={new Date(sunrise * 1000).toLocaleTimeString()} />
             <InfoBox icon={<NightsStayIcon />} label={t('sunset')} value={new Date(sunset * 1000).toLocaleTimeString()} />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Box display="flex" flexDirection="column" alignItems="center">
             {rain && rain['1h'] && <InfoBox icon={<GrainIcon />} label={t('rain_volume_last_1_hour')} value={`${rain['1h']} mm`} />}
             {rain && rain['3h'] && <InfoBox icon={<GrainIcon />} label={t('rain_volume_last_3_hours')} value={`${rain['3h']} mm`} />}
             {snow && snow['1h'] && <InfoBox icon={<AcUnitIcon />} label={t('snow_volume_last_1_hour')} value={`${snow['1h']} mm`} />}
             {snow && snow['3h'] && <InfoBox icon={<AcUnitIcon />} label={t('snow_volume_last_3_hours')} value={`${snow['3h']} mm`} />}
             {sea_level && <InfoBox icon={<WavesIcon />} label={t('sea_level_pressure')} value={`${sea_level} hPa`} />}
             {grnd_level && <InfoBox icon={<WavesIcon />} label={t('ground_level_pressure')} value={`${grnd_level} hPa`} />}
-          </Grid>
+          </Box>
         </Grid>
-      </CardContent>
+      </Grid>
     </Card>
   );
 };

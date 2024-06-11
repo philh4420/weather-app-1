@@ -129,7 +129,7 @@ const AirPollution = ({ lat, lon }) => {
       borderRadius: theme.shape.borderRadius,
       boxShadow: theme.shadows[4],
       position: 'relative',
-      background: theme.palette.mode === 'dark' ? theme.palette.background.paper : 'linear-gradient(to right, #f7f8f9, #f1f2f3)',
+      padding: theme.spacing(3),
     }}>
       <Tooltip title={t('refresh')} arrow>
         <IconButton
@@ -139,42 +139,46 @@ const AirPollution = ({ lat, lon }) => {
           <RefreshIcon />
         </IconButton>
       </Tooltip>
-      <CardContent sx={{ padding: theme.spacing(2.5) }}>
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(2) }}>
+      <CardContent sx={{ padding: theme.spacing(3) }}>
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(3) }}>
           {t('air_quality_index')}
         </Typography>
-        <Typography variant="h4" color="textPrimary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(2), fontWeight: theme.typography.h4.fontWeight, color: aqiLevels[aqi - 1] === t('good') ? '#4caf50' : '#f44336' }}>
+        <Typography variant="h4" color="textPrimary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(3), fontWeight: theme.typography.h4.fontWeight, color: aqiLevels[aqi - 1] === t('good') ? '#4caf50' : '#f44336' }}>
           {aqiLevels[aqi - 1]}
         </Typography>
         <Typography variant="body1" color="textSecondary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(2) }}>
           {currentAlert.message}
         </Typography>
-        <Typography variant="body2" color="textSecondary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(3) }}>
+        <Typography variant="body2" color="textSecondary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(4) }}>
           {healthAlertDetails[aqi - 1]}
         </Typography>
-        <Grid container spacing={theme.spacing(2)}>
+        <Grid container spacing={2} justifyContent="center">
           {pollutants && Object.keys(pollutants).map((key, index) => (
-            <Grid item xs={12} md={6} lg={4} key={index}>
-              <InfoBox
-                icon={pollutantIcons[key]}
-                label={t(key)}
-                value={`${pollutants[key]} µg/m³`}
-                description={pollutantSources[key]}
-              />
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <InfoBox
+                  icon={pollutantIcons[key]}
+                  label={t(key)}
+                  value={`${pollutants[key]} µg/m³`}
+                  description={pollutantSources[key]}
+                />
+              </Box>
             </Grid>
           ))}
         </Grid>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: theme.typography.h6.fontWeight, textAlign: 'center', mt: theme.spacing(4) }}>
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: theme.typography.h6.fontWeight, textAlign: 'center', mt: theme.spacing(5) }}>
           {t('historical_air_quality')}
         </Typography>
-        <Grid container spacing={theme.spacing(2)}>
+        <Grid container spacing={2} justifyContent="center">
           {Array.from(uniqueDates.values()).map((data, index) => (
-            <Grid item xs={12} md={6} lg={4} key={index}>
-              <InfoBox
-                icon={<HistoryIcon />}
-                label={t('date', { date: new Date(data.dt * 1000).toLocaleDateString() })}
-                value={aqiLevels[data.main.aqi - 1]}
-              />
+            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <InfoBox
+                  icon={<HistoryIcon />}
+                  label={t('date', { date: new Date(data.dt * 1000).toLocaleDateString() })}
+                  value={aqiLevels[data.main.aqi - 1]}
+                />
+              </Box>
             </Grid>
           ))}
         </Grid>

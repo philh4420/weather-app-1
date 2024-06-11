@@ -159,5 +159,21 @@
   "historical_air_quality": "Calitatea istorică a aerului",
   "date": "Data: {{date}}",
   "refresh": "Reîmprospăta",
-  "light_drizzle": "Burniță ușoară"
+  "light_drizzle": "Burniță ușoară",
+  "compass": "Busolă",
+  "north": "N",
+  "northeast": "NE",
+  "east": "E",
+  "southeast": "SE",
+  "south": "S",
+  "southwest": "SV",
+  "west": "V",
+  "northwest": "NV",
+  "speed": "Viteză",
+  "direction": "Direcție",
+  "error_fetching_wind_data": "Eroare la preluarea datelor despre vânt",
+  "Time": "Ora",
+  "Condition": "Condiție",
+  "Temperature": "Temperatură",
+  "no_forecast_data_available": "Nu sunt disponibile datele prognozei"
 }

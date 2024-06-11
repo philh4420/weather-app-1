@@ -159,5 +159,21 @@
   "historical_air_quality": "Historical Air Quality",
   "date": "Date: {{date}}",
   "refresh": "Refresh",
-  "light_drizzle": "Light drizzle"
+  "light_drizzle": "Light drizzle",
+  "compass": "Compass",
+  "north": "N",
+  "northeast": "NE",
+  "east": "E",
+  "southeast": "SE",
+  "south": "S",
+  "southwest": "SW",
+  "west": "W",
+  "northwest": "NW",
+  "speed": "Speed",
+  "direction": "Direction",
+  "error_fetching_wind_data": "Error fetching wind data",
+  "Time": "Time",
+  "Condition": "Condition",
+  "Temperature": "Temperature",
+  "no_forecast_data_available": "No forecast data available"
 }

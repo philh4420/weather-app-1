@@ -20,6 +20,7 @@ import CurrentWeather from './CurrentWeather';
 import HourlyForecast from './HourlyForecast';
 import FiveDayForecast from './FiveDayForecast';
 import AirPollution from './AirPollution';
+import Wind from './Wind';
 
 const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) => {
   const { t, ready } = useTranslation();
@@ -75,8 +76,12 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return t('good_morning');
-    if (hour < 18) return t('good_afternoon');
+    if (hour < 12) {
+      return t('good_morning');
+    }
+    if (hour < 18) {
+      return t('good_afternoon');
+    }
     return t('good_evening');
   };
 
@@ -195,14 +200,19 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
               <Grid item xs={12}>
                 <HourlyForecast lat={location.lat} lon={location.lon} />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={6} lg={4}>
                 <Box sx={{ height: '100%' }}>
                   <CurrentWeather lat={location.lat} lon={location.lon} />
                 </Box>
               </Grid>
-              <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={6} lg={5}>
                 <Box sx={{ height: '100%' }}>
                   <AirPollution lat={location.lat} lon={location.lon} />
+                </Box>
+              </Grid>
+                  <Grid item xs={12} md={6} lg={3}>
+                <Box sx={{ height: '100%' }}>
+                  <Wind lat={location.lat} lon={location.lon} />
                 </Box>
               </Grid>
             </Grid>

@@ -12,7 +12,21 @@ export const fetchOpenWeatherMapData = async (lat, lon) => {
       axios.get(uvUrl)
     ]);
 
-    return { ...weatherResponse.data, uvi: uvResponse.data.value };
+    return {
+          ...weatherResponse.data,
+          uvi: uvResponse.data.value,
+          rain: weatherResponse.data.rain || {},
+          snow: weatherResponse.data.snow || {},
+          wind: {
+            ...weatherResponse.data.wind,
+            gust: weatherResponse.data.wind.gust || null,
+          },
+          main: {
+            ...weatherResponse.data.main,
+            sea_level: weatherResponse.data.main.sea_level || null,
+            grnd_level: weatherResponse.data.main.grnd_level || null,
+          },
+        };
   } catch (error) {
     console.error('Error fetching OpenWeatherMap data:', error);
     throw error;
@@ -69,4 +83,3 @@ export const fetchHistoricalAirPollutionData = async (lat, lon) => {
     throw error;
   }
 };
-
