@@ -21,6 +21,7 @@ import HourlyForecast from './HourlyForecast';
 import FiveDayForecast from './FiveDayForecast';
 import AirPollution from './AirPollution';
 import Wind from './Wind';
+import FeelsLike from './FeelsLike'; // Importing the new FeelsLike component
 
 const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) => {
   const { t, ready } = useTranslation();
@@ -205,14 +206,17 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
                   <CurrentWeather lat={location.lat} lon={location.lon} />
                 </Box>
               </Grid>
-                  <Grid item xs={12} md={6} lg={5}>
+              <Grid item xs={12} md={6} lg={5}>
                 <Box sx={{ height: '100%' }}>
                   <AirPollution lat={location.lat} lon={location.lon} />
                 </Box>
               </Grid>
-                  <Grid item xs={12} md={6} lg={3}>
-                <Box sx={{ height: '100%' }}>
+              <Grid item xs={12} md={6} lg={3}>
+                <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <Wind lat={location.lat} lon={location.lon} />
+                  <Box sx={{ mt: 2 }}> {/* Adding a margin between Wind and FeelsLike */}
+                    <FeelsLike lat={location.lat} lon={location.lon} />
+                  </Box>
                 </Box>
               </Grid>
             </Grid>

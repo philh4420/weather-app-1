@@ -2,13 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, useTheme, IconButton, Tooltip, CircularProgress } from '@mui/material';
 import { styled } from '@mui/system';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
-import axios from 'axios';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import InfoBox from './InfoBox';
 import compassSvg from '../weather-icons/compass.svg';
 import { useTranslation } from 'react-i18next';
-
-const API_KEY = process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
+import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
 
 const WindContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -19,8 +17,9 @@ const WindContainer = styled(Box)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[3],
   width: '100%',
-  maxWidth: '500px',
+  maxWidth: '800px',
   position: 'relative',
+  backgroundColor: theme.palette.background.paper, // Ensure the background color is from the theme
   '&:hover': {
     boxShadow: theme.shadows[6],
   },
@@ -37,6 +36,7 @@ const CompassContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   borderRadius: '50%',
   boxShadow: theme.shadows[2],
+  backgroundColor: theme.palette.background.paper, // Ensure the background color is from the theme
 }));
 
 const CompassIcon = styled('img')(({ theme }) => ({
@@ -88,18 +88,33 @@ const DirectionNeedle = styled('div')(({ theme, direction }) => ({
 
 const WindSpeedBar = styled(Box)(({ theme, speed }) => ({
   width: '100%',
-  height: '12px',
+  height: '16px',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.grey[300],
+  background: theme.palette.grey[300],
   marginTop: theme.spacing(2),
   overflow: 'hidden',
+  position: 'relative',
   '&::after': {
     content: '""',
     display: 'block',
     width: `${speed}%`,
     height: '100%',
-    backgroundColor: theme.palette.primary.main,
+    background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
     transition: 'width 0.3s ease-in-out',
+  },
+  '&::before': {
+    content: `"${speed}%"`,
+    position: 'absolute',
+    top: '-25px',
+    left: `${speed}%`,
+    transform: 'translateX(-50%)',
+    backgroundColor: theme.palette.background.paper,
+    padding: '2px 8px',
+    borderRadius: '4px',
+    fontSize: '12px',
+    fontWeight: 'bold',
+    color: theme.palette.text.primary,
+    boxShadow: theme.shadows[1],
   },
 }));
 
@@ -112,9 +127,8 @@ const Wind = ({ lat, lon }) => {
 
   const fetchWindData = useCallback(async () => {
     try {
-      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
-      const response = await axios.get(weatherUrl);
-      const { speed, deg } = response.data.wind;
+      const data = await fetchOpenWeatherMapData(lat, lon);
+      const { speed, deg } = data.wind;
       setWindData({ speed, direction: deg });
       setLoading(false);
     } catch (error) {
