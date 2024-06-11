@@ -175,5 +175,6 @@
   "Time": "Time",
   "Condition": "Condition",
   "Temperature": "Temperature",
-  "no_forecast_data_available": "No forecast data available"
+  "no_forecast_data_available": "No forecast data available",
+  "rain_volume_last_1_hour": "Rain volume last 1 hour"
 }

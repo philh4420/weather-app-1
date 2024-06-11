@@ -20,7 +20,7 @@ import {
 } from '@mui/icons-material';
 import { fetchOpenWeatherMap5DayData } from '../api/openWeatherMapAPI';
 import { styled } from '@mui/system';
-import InfoBox from './InfoBox';
+import InfoBox from './InfoBox2';
 
 const iconMapping = {
   "01d": "clear-day.svg",
@@ -173,10 +173,10 @@ const FiveDayForecast = ({ lat, lon }) => {
                         </Typography>
                       </Box>
                       <Box display="flex" flexDirection="column" alignItems="center">
-                        <InfoBox icon={<ThermostatIcon />} label={t('temperature')} value={`${forecast.main.temp}°C`} />
+                        <InfoBox icon={<ThermostatIcon sx={{ fontSize: 40 }} />} label={t('temperature')} value={`${forecast.main.temp}°C`} />
                         <InfoBox icon={<OpacityIcon />} label={t('humidity')} value={`${forecast.main.humidity}%`} />
-                        <InfoBox icon={<SpeedIcon />} label={t('pressure')} value={`${forecast.main.pressure} hPa`} />
-                        <InfoBox icon={<CloudIcon />} label={t('cloudiness')} value={`${forecast.clouds.all}%`} />
+                        <InfoBox icon={<SpeedIcon sx={{ fontSize: 40 }} />} label={t('pressure')} value={`${forecast.main.pressure} hPa`} />
+                        <InfoBox icon={<CloudIcon sx={{ fontSize: 40 }} />} label={t('cloudiness')} value={`${forecast.clouds.all}%`} />
                       </Box>
                     </Box>
                   );

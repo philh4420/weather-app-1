@@ -175,5 +175,6 @@
   "Time": "Ora",
   "Condition": "Condiție",
   "Temperature": "Temperatură",
-  "no_forecast_data_available": "Nu sunt disponibile datele prognozei"
+  "no_forecast_data_available": "Nu sunt disponibile datele prognozei",
+  "rain_volume_last_1_hour": "Volumul de ploaie din ultima oră"
 }

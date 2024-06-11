@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, Card, CardContent, CircularProgress, Grid, Tooltip, IconButton, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { fetchAirPollutionData, fetchHistoricalAirPollutionData } from '../api/openWeatherMapAPI';
-import InfoBox from './InfoBox';
+import InfoBox from './InfoBox2';
 import {
   AcUnit as AcUnitIcon,
   BubbleChart as BubbleChartIcon,
@@ -125,21 +125,22 @@ const AirPollution = ({ lat, lon }) => {
   return (
     <Card sx={{
       width: '100%',
-      height: '100%',
       borderRadius: theme.shape.borderRadius,
       boxShadow: theme.shadows[4],
       position: 'relative',
       padding: theme.spacing(3),
     }}>
-      <Tooltip title={t('refresh')} arrow>
-        <IconButton
-          onClick={refreshData}
-          sx={{ position: 'absolute', top: 16, right: 16, zIndex: 1, color: theme.palette.primary.main }}
-        >
-          <RefreshIcon />
-        </IconButton>
-      </Tooltip>
-      <CardContent sx={{ padding: theme.spacing(3) }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
+        <Tooltip title={t('refresh')} arrow>
+          <IconButton
+            onClick={refreshData}
+            sx={{ color: theme.palette.primary.main }}
+          >
+            <RefreshIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <CardContent>
         <Typography variant="h5" gutterBottom sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(3) }}>
           {t('air_quality_index')}
         </Typography>
@@ -155,14 +156,12 @@ const AirPollution = ({ lat, lon }) => {
         <Grid container spacing={2} justifyContent="center">
           {pollutants && Object.keys(pollutants).map((key, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <InfoBox
-                  icon={pollutantIcons[key]}
-                  label={t(key)}
-                  value={`${pollutants[key]} µg/m³`}
-                  description={pollutantSources[key]}
-                />
-              </Box>
+              <InfoBox
+                icon={pollutantIcons[key]}
+                label={t(key)}
+                value={`${pollutants[key]} µg/m³`}
+                description={pollutantSources[key]}
+              />
             </Grid>
           ))}
         </Grid>
@@ -172,13 +171,11 @@ const AirPollution = ({ lat, lon }) => {
         <Grid container spacing={2} justifyContent="center">
           {Array.from(uniqueDates.values()).map((data, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <InfoBox
-                  icon={<HistoryIcon />}
-                  label={t('date', { date: new Date(data.dt * 1000).toLocaleDateString() })}
-                  value={aqiLevels[data.main.aqi - 1]}
-                />
-              </Box>
+              <InfoBox
+                icon={<HistoryIcon sx={{ fontSize: 40 }} />}
+                label={t('date', { date: new Date(data.dt * 1000).toLocaleDateString() })}
+                value={aqiLevels[data.main.aqi - 1]}
+              />
             </Grid>
           ))}
         </Grid>

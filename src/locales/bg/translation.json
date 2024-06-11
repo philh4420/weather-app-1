@@ -165,5 +165,6 @@
   "Time": "Час",
   "Condition": "Условия",
   "Temperature": "Температура",
-  "no_forecast_data_available": "Няма налични данни за прогнозата"
+  "no_forecast_data_available": "Няма налични данни за прогнозата",
+  "rain_volume_last_1_hour": "Обем на дъжд през последния час"
 }

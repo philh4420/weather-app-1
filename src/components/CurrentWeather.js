@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
-import InfoBox from './InfoBox';
+import InfoBox from './InfoBox2';
 
 const iconMapping = {
   "01d": "clear-day.svg",
@@ -120,14 +120,16 @@ const CurrentWeather = ({ lat, lon }) => {
       position: 'relative',
       padding: theme.spacing(3),
     }}>
-      <Tooltip title={t('refresh')} arrow>
-        <IconButton
-          onClick={refreshWeatherData}
-          sx={{ position: 'absolute', top: 16, right: 16, zIndex: 1, color: theme.palette.primary.main }}
-        >
-          <RefreshIcon />
-        </IconButton>
-      </Tooltip>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
+        <Tooltip title={t('refresh')} arrow>
+          <IconButton
+            onClick={refreshWeatherData}
+            sx={{ color: theme.palette.primary.main }}
+          >
+            <RefreshIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <Typography
         variant="h5"
         gutterBottom
@@ -145,49 +147,91 @@ const CurrentWeather = ({ lat, lon }) => {
       </Box>
       <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} sm={6} md={4}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <InfoBox icon={<ThermostatIcon />} label={t('temperature')} value={`${temp}°C`} />
-            <InfoBox icon={<ThermostatIcon />} label={t('feels_like')} value={`${feels_like}°C`} />
-            <InfoBox icon={<ArrowDownwardIcon />} label={t('temp_min')} value={`${temp_min}°C`} />
-            <InfoBox icon={<ArrowUpwardIcon />} label={t('temp_max')} value={`${temp_max}°C`} />
-            <InfoBox icon={<OpacityIcon />} label={t('humidity')} value={`${humidity}%`} />
-          </Box>
+          <InfoBox icon={<ThermostatIcon sx={{ fontSize: 40 }} />} label={t('temperature')} value={`${temp}°C`} />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <InfoBox icon={<SpeedIcon />} label={t('pressure')} value={`${pressure} hPa`} />
-            <InfoBox icon={<CloudIcon />} label={t('cloudiness')} value={`${cloudiness}%`} />
-            <InfoBox icon={<VisibilityIcon />} label={t('visibility')} value={`${visibility} m`} />
-            <InfoBox icon={<WindPowerIcon />} label={t('wind_speed')} value={`${speed} m/s`} />
-            {gust && <InfoBox icon={<WindPowerIcon />} label={t('wind_gust')} value={`${gust} m/s`} />}
-            <InfoBox icon={<ExploreIcon />} label={t('wind_direction')} value={`${deg}°`} />
-          </Box>
+          <InfoBox icon={<ThermostatIcon sx={{ fontSize: 40 }} />} label={t('feels_like')} value={`${feels_like}°C`} />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            {weatherData.clouds && (
-              <InfoBox icon={<CloudQueueIcon />} label={t('cloud_coverage')} value={`${weatherData.clouds.all}%`} />
-            )}
-            {weatherData.main && (
-              <InfoBox icon={<AirPressureIcon />} label={t('air_pressure')} value={`${weatherData.main.pressure} hPa`} />
-            )}
-            {weatherData.uvi && (
-              <InfoBox icon={<UVIndexIcon />} label={t('uv_index')} value={weatherData.uvi} />
-            )}
-            <InfoBox icon={<WbSunnyIcon />} label={t('sunrise')} value={new Date(sunrise * 1000).toLocaleTimeString()} />
-            <InfoBox icon={<NightsStayIcon />} label={t('sunset')} value={new Date(sunset * 1000).toLocaleTimeString()} />
-          </Box>
+          <InfoBox icon={<ArrowDownwardIcon sx={{ fontSize: 40 }} />} label={t('temp_min')} value={`${temp_min}°C`} />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            {rain && rain['1h'] && <InfoBox icon={<GrainIcon />} label={t('rain_volume_last_1_hour')} value={`${rain['1h']} mm`} />}
-            {rain && rain['3h'] && <InfoBox icon={<GrainIcon />} label={t('rain_volume_last_3_hours')} value={`${rain['3h']} mm`} />}
-            {snow && snow['1h'] && <InfoBox icon={<AcUnitIcon />} label={t('snow_volume_last_1_hour')} value={`${snow['1h']} mm`} />}
-            {snow && snow['3h'] && <InfoBox icon={<AcUnitIcon />} label={t('snow_volume_last_3_hours')} value={`${snow['3h']} mm`} />}
-            {sea_level && <InfoBox icon={<WavesIcon />} label={t('sea_level_pressure')} value={`${sea_level} hPa`} />}
-            {grnd_level && <InfoBox icon={<WavesIcon />} label={t('ground_level_pressure')} value={`${grnd_level} hPa`} />}
-          </Box>
+          <InfoBox icon={<ArrowUpwardIcon sx={{ fontSize: 40 }} />} label={t('temp_max')} value={`${temp_max}°C`} />
         </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<OpacityIcon sx={{ fontSize: 40 }} />} label={t('humidity')} value={`${humidity}%`} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<SpeedIcon sx={{ fontSize: 40 }} />} label={t('pressure')} value={`${pressure} hPa`} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<CloudIcon sx={{ fontSize: 40 }} />} label={t('cloudiness')} value={`${cloudiness}%`} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<VisibilityIcon sx={{ fontSize: 40 }} />} label={t('visibility')} value={`${visibility} m`} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<WindPowerIcon sx={{ fontSize: 40 }} />} label={t('wind_speed')} value={`${speed} m/s`} />
+        </Grid>
+        {gust && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<WindPowerIcon sx={{ fontSize: 40 }} />} label={t('wind_gust')} value={`${gust} m/s`} />
+          </Grid>
+        )}
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<ExploreIcon sx={{ fontSize: 40 }} />} label={t('wind_direction')} value={`${deg}°`} />
+        </Grid>
+        {weatherData.clouds && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<CloudQueueIcon sx={{ fontSize: 40 }} />} label={t('cloud_coverage')} value={`${weatherData.clouds.all}%`} />
+          </Grid>
+        )}
+        {weatherData.main && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<AirPressureIcon sx={{ fontSize: 40 }} />} label={t('air_pressure')} value={`${weatherData.main.pressure} hPa`} />
+          </Grid>
+        )}
+        {weatherData.uvi && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<UVIndexIcon sx={{ fontSize: 40 }} />} label={t('uv_index')} value={weatherData.uvi} />
+          </Grid>
+        )}
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<WbSunnyIcon sx={{ fontSize: 40 }} />} label={t('sunrise')} value={new Date(sunrise * 1000).toLocaleTimeString()} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <InfoBox icon={<NightsStayIcon sx={{ fontSize: 40 }} />} label={t('sunset')} value={new Date(sunset * 1000).toLocaleTimeString()} />
+        </Grid>
+        {rain && rain['1h'] && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<GrainIcon sx={{ fontSize: 40 }} />} label={t('rain_volume_last_1_hour')} value={`${rain['1h']} mm`} />
+          </Grid>
+        )}
+        {rain && rain['3h'] && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<GrainIcon sx={{ fontSize: 40 }} />} label={t('rain_volume_last_3_hours')} value={`${rain['3h']} mm`} />
+          </Grid>
+        )}
+        {snow && snow['1h'] && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<AcUnitIcon sx={{ fontSize: 40 }} />} label={t('snow_volume_last_1_hour')} value={`${snow['1h']} mm`} />
+          </Grid>
+        )}
+        {snow && snow['3h'] && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<AcUnitIcon sx={{ fontSize: 40 }} />} label={t('snow_volume_last_3_hours')} value={`${snow['3h']} mm`} />
+          </Grid>
+        )}
+        {sea_level && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<WavesIcon sx={{ fontSize: 40 }} />} label={t('sea_level_pressure')} value={`${sea_level} hPa`} />
+          </Grid>
+        )}
+        {grnd_level && (
+          <Grid item xs={12} sm={6} md={4}>
+            <InfoBox icon={<WavesIcon sx={{ fontSize: 40 }} />} label={t('ground_level_pressure')} value={`${grnd_level} hPa`} />
+          </Grid>
+        )}
       </Grid>
     </Card>
   );

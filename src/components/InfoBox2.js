@@ -17,7 +17,7 @@ const InfoBox = ({ icon, label, value }) => {
     color: theme.palette.getContrastText(theme.palette.primary.main),
     boxShadow: theme.shadows[3],
     transition: 'box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out',
-    minWidth: '280px', // Set a fixed width
+    minWidth: '220px', // Set a fixed width
     minHeight: '170px', // Set a minimum height
     '&:hover': {
       boxShadow: theme.shadows[10],

@@ -1,25 +1,24 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Box, Typography, useTheme, IconButton, Tooltip, CircularProgress } from '@mui/material';
+import { Box, Typography, useTheme, IconButton, Tooltip, CircularProgress, Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import NavigationIcon from '@mui/icons-material/Navigation';
-import InfoBox from './InfoBox';
+import InfoBox from './InfoBox2';
 import compassSvg from '../weather-icons/compass.svg';
 import { useTranslation } from 'react-i18next';
 import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
 
 const WindContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   flexDirection: 'column',
+  alignItems: 'center',
   padding: theme.spacing(3),
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[3],
   width: '100%',
   maxWidth: '800px',
+  backgroundColor: theme.palette.background.paper,
   position: 'relative',
-  backgroundColor: theme.palette.background.paper, // Ensure the background color is from the theme
   '&:hover': {
     boxShadow: theme.shadows[6],
   },
@@ -29,14 +28,13 @@ const CompassContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  flexDirection: 'column',
   position: 'relative',
   width: '200px',
   height: '200px',
   marginBottom: theme.spacing(2),
   borderRadius: '50%',
   boxShadow: theme.shadows[2],
-  backgroundColor: theme.palette.background.paper, // Ensure the background color is from the theme
+  backgroundColor: theme.palette.background.paper,
 }));
 
 const CompassIcon = styled('img')(({ theme }) => ({
@@ -141,7 +139,7 @@ const Wind = ({ lat, lon }) => {
   }, [fetchWindData]);
 
   const handleRefreshClick = () => {
-    setLoading(true); // Show loading state
+    setLoading(true);
     fetchWindData();
   };
 
@@ -187,10 +185,14 @@ const Wind = ({ lat, lon }) => {
         <DirectionNeedle theme={theme} direction={windData.direction} />
       </CompassContainer>
       <WindSpeedBar theme={theme} speed={speedPercentage} />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: theme.spacing(2) }}>
-        <InfoBox icon={<NavigationIcon />} label={t('speed')} value={`${windData.speed} km/h`} />
-        <InfoBox icon={<NavigationIcon />} label={t('direction')} value={`${windData.direction}°`} />
-      </Box>
+      <Grid container spacing={2} sx={{ width: '100%', marginTop: theme.spacing(2) }}>
+        <Grid item xs={12} sm={6}>
+          <InfoBox icon={<NavigationIcon sx={{ fontSize: 40 }} />} label={t('speed')} value={`${windData.speed} km/h`} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <InfoBox icon={<NavigationIcon sx={{ fontSize: 40 }} />} label={t('direction')} value={`${windData.direction}°`} />
+        </Grid>
+      </Grid>
     </WindContainer>
   );
 };

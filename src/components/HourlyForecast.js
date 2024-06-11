@@ -99,7 +99,7 @@ const HourlyForecast = ({ lat, lon }) => {
   ).slice(0, 24);
 
   return (
-    <Box sx={{ width: '100%', marginTop: '16px', borderRadius: theme.shape.borderRadius, padding: theme.spacing(3), bgcolor: theme.palette.background.default, position: 'relative' }}>
+    <Box sx={{ width: '100%', mt: 2, p: 2, borderRadius: theme.shape.borderRadius, bgcolor: theme.palette.background.default, position: 'relative' }}>
       <Tooltip title={t('refresh')} arrow>
         <IconButton
           onClick={refreshForecastData}
@@ -108,7 +108,7 @@ const HourlyForecast = ({ lat, lon }) => {
           <RefreshIcon />
         </IconButton>
       </Tooltip>
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 3, color: theme.palette.text.primary }}>
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 3 }}>
         {t('24_hour_forecast')}
       </Typography>
       <ScrollableGrid>
@@ -119,7 +119,7 @@ const HourlyForecast = ({ lat, lon }) => {
           return (
             <ForecastItem key={index} theme={theme}>
               <InfoBox
-                icon={<TimeIcon />}
+                icon={<TimeIcon sx={{ fontSize: 40 }} />}
                 label={t('Time')}
                 value={new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               />
@@ -129,7 +129,7 @@ const HourlyForecast = ({ lat, lon }) => {
                 value={t(conditionTextKey, { defaultValue: hour.condition.text })}
               />
               <InfoBox
-                icon={<TemperatureIcon />}
+                icon={<TemperatureIcon sx={{ fontSize: 40 }} />}
                 label={t('Temperature')}
                 value={`${hour.temp_c}°C`}
               />

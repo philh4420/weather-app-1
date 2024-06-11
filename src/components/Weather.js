@@ -21,7 +21,7 @@ import HourlyForecast from './HourlyForecast';
 import FiveDayForecast from './FiveDayForecast';
 import AirPollution from './AirPollution';
 import Wind from './Wind';
-import FeelsLike from './FeelsLike'; // Importing the new FeelsLike component
+import FeelsLike from './FeelsLike';
 
 const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) => {
   const { t, ready } = useTranslation();
@@ -197,31 +197,25 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
       ) : location.lat && location.lon ? (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Grid container spacing={2}>
-            <Grid container spacing={2} justifyContent="center" sx={{ width: '100%', mt: 2 }}>
-              <Grid item xs={12}>
-                <HourlyForecast lat={location.lat} lon={location.lon} />
-              </Grid>
-              <Grid item xs={12} md={6} lg={4}>
-                <Box sx={{ height: '100%' }}>
-                  <CurrentWeather lat={location.lat} lon={location.lon} />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6} lg={5}>
-                <Box sx={{ height: '100%' }}>
-                  <AirPollution lat={location.lat} lon={location.lon} />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6} lg={3}>
-                <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <Wind lat={location.lat} lon={location.lon} />
-                  <Box sx={{ mt: 2 }}> {/* Adding a margin between Wind and FeelsLike */}
-                    <FeelsLike lat={location.lat} lon={location.lon} />
-                  </Box>
-                </Box>
-              </Grid>
+            <Grid item xs={12}>
+              <CurrentWeather lat={location.lat} lon={location.lon} />
+            </Grid>
+            <Grid item xs={12}>
+              <HourlyForecast lat={location.lat} lon={location.lon} />
             </Grid>
             <Grid item xs={12}>
               <FiveDayForecast lat={location.lat} lon={location.lon} />
+            </Grid>
+            <Grid container item xs={12} spacing={2}>
+              <Grid item xs={12} md={6} lg={5}>
+                <AirPollution lat={location.lat} lon={location.lon} sx={{ height: '100%' }} />
+              </Grid>
+              <Grid item xs={12} md={6} lg={4}>
+                <Wind lat={location.lat} lon={location.lon} sx={{ height: '100%' }} />
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <FeelsLike lat={location.lat} lon={location.lon} sx={{ height: '100%' }} />
+              </Grid>
             </Grid>
           </Grid>
         </Box>
