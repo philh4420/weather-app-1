@@ -133,7 +133,7 @@ const Wind = ({ lat, lon }) => {
     fetchWindData();
   };
 
-  const speedPercentage = (windData.speed / 150) * 100; // Assuming 150 km/h is a realistic maximum for scaling
+  const speedPercentage = (windData.speed / 50) * 100; // Assuming 50 km/h is a realistic maximum for scaling
 
   if (loading) {
     return (
