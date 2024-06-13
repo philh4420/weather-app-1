@@ -43,12 +43,32 @@ const iconMapping = {
   "50n": "mist.svg",
 };
 
+const ScrollableBox = styled(Box)(({ theme }) => ({
+  maxHeight: '70vh',
+  maxWidth: '100%',
+  overflowY: 'auto',
+  padding: theme.spacing(2),
+  '&::-webkit-scrollbar': {
+    width: '10px',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: theme.palette.scrollbar.thumb,
+    borderRadius: '10px',
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    backgroundColor: theme.palette.scrollbar.thumbHover,
+  },
+  msOverflowStyle: 'auto',
+  scrollbarWidth: 'auto',
+}));
+
 const ForecastItem = styled(Card)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[3],
-  minWidth: '150px',
   textAlign: 'center',
   backgroundColor: theme.palette.background.paper,
+  margin: theme.spacing(1),
+  flexGrow: 1,
   '&:hover': {
     boxShadow: theme.shadows[6],
   },
@@ -145,47 +165,57 @@ const FiveDayForecast = ({ lat, lon }) => {
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center', mb: 3 }}>
         {t('5_day_forecast')}
       </Typography>
-      <Grid container spacing={2} justifyContent="center">
-        {Object.keys(groupedData).map((date, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
-            <ForecastItem sx={{ height: '100%' }}>
-              <CardContent sx={{ p: 2 }}>
-                <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
-                  {date}
-                </Typography>
-                {groupedData[date].map((forecast, idx) => {
-                  const weatherDescription = forecast.weather[0].description.toLowerCase().replace(/ /g, '_');
-                  const weatherIcon = forecast.weather[0].icon;
+      <ScrollableBox >
+        <Grid container spacing={2} justifyContent="center">
+          {Object.keys(groupedData).map((date, index) => (
+            <Grid item xs={12} sm={8} md={4} lg={2} key={index}>
+              <ForecastItem>
+                <CardContent sx={{ p: 2 }}>
+                  <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+                    {date}
+                  </Typography>
+                  {groupedData[date].map((forecast, idx) => {
+                    const weatherDescription = forecast.weather[0].description.toLowerCase().replace(/ /g, '_');
+                    const weatherIcon = forecast.weather[0].icon;
 
-                  return (
-                    <Box key={idx} sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                        {new Date(forecast.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </Typography>
-                      <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 1 }}>
-                        {weatherIcons[weatherIcon] ? (
-                          <img src={weatherIcons[weatherIcon]} alt={weatherIcon} className="weather-icon" />
-                        ) : (
-                          <div className="icon sun"></div>
-                        )}
-                        <Typography variant="body2" sx={{ ml: 1 }}>
-                          {t(weatherDescription, { defaultValue: forecast.weather[0].description })}
+                    return (
+                      <Box key={idx} sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                          {new Date(forecast.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </Typography>
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 1 }}>
+                          {weatherIcons[weatherIcon] ? (
+                            <img src={weatherIcons[weatherIcon]} alt={weatherIcon} className="weather-icon" />
+                          ) : (
+                            <div className="icon sun"></div>
+                          )}
+                          <Typography variant="body2" sx={{ ml: 1 }}>
+                            {t(weatherDescription, { defaultValue: forecast.weather[0].description })}
+                          </Typography>
+                        </Box>
+                        <Grid container spacing={1} justifyContent="center">
+                          <Grid item xs={12} sm={8}>
+                            <InfoBox icon={<ThermostatIcon />} label={t('temperature')} value={`${forecast.main.temp}°C`} />
+                          </Grid>
+                          <Grid item xs={12} sm={8}>
+                            <InfoBox icon={<OpacityIcon />} label={t('humidity')} value={`${forecast.main.humidity}%`} />
+                          </Grid>
+                          <Grid item xs={12} sm={8}>
+                            <InfoBox icon={<SpeedIcon />} label={t('pressure')} value={`${forecast.main.pressure} hPa`} />
+                          </Grid>
+                          <Grid item xs={12} sm={8}>
+                            <InfoBox icon={<CloudIcon />} label={t('cloudiness')} value={`${forecast.clouds.all}%`} />
+                          </Grid>
+                        </Grid>
                       </Box>
-                      <Box display="flex" flexDirection="column" alignItems="center">
-                        <InfoBox icon={<ThermostatIcon sx={{ fontSize: 40 }} />} label={t('temperature')} value={`${forecast.main.temp}°C`} />
-                        <InfoBox icon={<OpacityIcon />} label={t('humidity')} value={`${forecast.main.humidity}%`} />
-                        <InfoBox icon={<SpeedIcon sx={{ fontSize: 40 }} />} label={t('pressure')} value={`${forecast.main.pressure} hPa`} />
-                        <InfoBox icon={<CloudIcon sx={{ fontSize: 40 }} />} label={t('cloudiness')} value={`${forecast.clouds.all}%`} />
-                      </Box>
-                    </Box>
-                  );
-                })}
-              </CardContent>
-            </ForecastItem>
-          </Grid>
-        ))}
-      </Grid>
+                    );
+                  })}
+                </CardContent>
+              </ForecastItem>
+            </Grid>
+          ))}
+        </Grid>
+      </ScrollableBox>
     </Box>
   );
 };

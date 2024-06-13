@@ -1,22 +1,42 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Typography, Card, CardContent, CircularProgress, Grid, Tooltip, IconButton, useTheme } from '@mui/material';
+import {
+  Box, Typography, CircularProgress, Grid, Tooltip, IconButton, useTheme
+} from '@mui/material';
+import {
+  AcUnit as AcUnitIcon, BubbleChart as BubbleChartIcon, Opacity as OpacityIcon,
+  FilterDrama as FilterDramaIcon, Whatshot as WhatshotIcon, LocalFireDepartment as LocalFireDepartmentIcon,
+  History as HistoryIcon, Refresh as RefreshIcon
+} from '@mui/icons-material';
+
 import { useTranslation } from 'react-i18next';
 import { fetchAirPollutionData, fetchHistoricalAirPollutionData } from '../api/openWeatherMapAPI';
 import InfoBox from './InfoBox2';
-import {
-  AcUnit as AcUnitIcon,
-  BubbleChart as BubbleChartIcon,
-  Opacity as OpacityIcon,
-  FilterDrama as FilterDramaIcon,
-  Whatshot as WhatshotIcon,
-  LocalFireDepartment as LocalFireDepartmentIcon,
-  History as HistoryIcon,
-  Refresh as RefreshIcon,
-} from '@mui/icons-material';
+import { styled } from '@mui/system';
+
+const ScrollableBox = styled(Box)(({ theme }) => ({
+  width: '100%',
+  padding: theme.spacing(3),
+  maxHeight: '68vh',
+  overflowY: 'auto',
+  backgroundColor: theme.palette.background.paper,
+  '&::-webkit-scrollbar': {
+    width: '10px',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: theme.palette.scrollbar.thumb,
+    borderRadius: '10px',
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    backgroundColor: theme.palette.scrollbar.thumbHover,
+  },
+  msOverflowStyle: 'auto',
+  scrollbarWidth: 'auto',
+}));
 
 const AirPollution = ({ lat, lon }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
   const [airPollutionData, setAirPollutionData] = useState(null);
   const [historicalData, setHistoricalData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +48,6 @@ const AirPollution = ({ lat, lon }) => {
     try {
       const currentData = await fetchAirPollutionData(lat, lon);
       setAirPollutionData(currentData);
-
       const historical = await fetchHistoricalAirPollutionData(lat, lon);
       setHistoricalData(historical);
     } catch (error) {
@@ -65,13 +84,7 @@ const AirPollution = ({ lat, lon }) => {
 
   const { list } = airPollutionData;
   const aqi = list[0]?.main?.aqi;
-  const aqiLevels = [
-    t('good'),
-    t('fair'),
-    t('moderate'),
-    t('poor'),
-    t('very_poor'),
-  ];
+  const aqiLevels = [t('good'), t('fair'), t('moderate'), t('poor'), t('very_poor')];
   const pollutants = list[0]?.components;
 
   const healthAlerts = [
@@ -123,64 +136,55 @@ const AirPollution = ({ lat, lon }) => {
   });
 
   return (
-    <Card sx={{
-      width: '100%',
-      borderRadius: theme.shape.borderRadius,
-      boxShadow: theme.shadows[4],
-      position: 'relative',
-      padding: theme.spacing(3),
-    }}>
+    <ScrollableBox>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
         <Tooltip title={t('refresh')} arrow>
-          <IconButton
-            onClick={refreshData}
-            sx={{ color: theme.palette.primary.main }}
-          >
+          <IconButton onClick={refreshData} sx={{ color: theme.palette.primary.main }}>
             <RefreshIcon />
           </IconButton>
         </Tooltip>
       </Box>
-      <CardContent>
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(3) }}>
-          {t('air_quality_index')}
-        </Typography>
-        <Typography variant="h4" color="textPrimary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(3), fontWeight: theme.typography.h4.fontWeight, color: aqiLevels[aqi - 1] === t('good') ? '#4caf50' : '#f44336' }}>
-          {aqiLevels[aqi - 1]}
-        </Typography>
-        <Typography variant="body1" color="textSecondary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(2) }}>
-          {currentAlert.message}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(4) }}>
-          {healthAlertDetails[aqi - 1]}
-        </Typography>
-        <Grid container spacing={2} justifyContent="center">
-          {pollutants && Object.keys(pollutants).map((key, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <InfoBox
-                icon={pollutantIcons[key]}
-                label={t(key)}
-                value={`${pollutants[key]} µg/m³`}
-                description={pollutantSources[key]}
-              />
-            </Grid>
-          ))}
-        </Grid>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: theme.typography.h6.fontWeight, textAlign: 'center', mt: theme.spacing(5) }}>
-          {t('historical_air_quality')}
-        </Typography>
-        <Grid container spacing={2} justifyContent="center">
-          {Array.from(uniqueDates.values()).map((data, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-              <InfoBox
-                icon={<HistoryIcon sx={{ fontSize: 40 }} />}
-                label={t('date', { date: new Date(data.dt * 1000).toLocaleDateString() })}
-                value={aqiLevels[data.main.aqi - 1]}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </CardContent>
-    </Card>
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(3) }}>
+        {t('air_quality_index')}
+      </Typography>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(3), fontWeight: theme.typography.h4.fontWeight, color: aqiLevels[aqi - 1] === t('good') ? theme.palette.success.main : theme.palette.error.main }}>
+        {aqiLevels[aqi - 1]}
+      </Typography>
+      <Typography variant="body1" color="textSecondary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(2) }}>
+        {currentAlert.message}
+      </Typography>
+      <Typography variant="body2" color="textSecondary" gutterBottom sx={{ textAlign: 'center', mb: theme.spacing(4) }}>
+        {healthAlertDetails[aqi - 1]}
+      </Typography>
+
+      <Grid container spacing={2} justifyContent="center">
+        {pollutants && Object.keys(pollutants).map((key, index) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <InfoBox
+              icon={pollutantIcons[key]}
+              label={t(key)}
+              value={`${pollutants[key]} µg/m³`}
+              description={pollutantSources[key]}
+            />
+          </Grid>
+        ))}
+      </Grid>
+
+      <Typography variant="h6" gutterBottom sx={{ fontWeight: theme.typography.h6.fontWeight, textAlign: 'center', mt: theme.spacing(5) }}>
+        {t('historical_air_quality')}
+      </Typography>
+      <Grid container spacing={2} justifyContent="center">
+        {Array.from(uniqueDates.values()).map((data, index) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <InfoBox
+              icon={<HistoryIcon sx={{ fontSize: 40 }} />}
+              label={t('date', { date: new Date(data.dt * 1000).toLocaleDateString() })}
+              value={aqiLevels[data.main.aqi - 1]}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </ScrollableBox>
   );
 };
 

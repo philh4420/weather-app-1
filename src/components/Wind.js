@@ -1,28 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, useTheme, IconButton, Tooltip, CircularProgress, Grid } from '@mui/material';
 import { styled } from '@mui/system';
-import { Refresh as RefreshIcon } from '@mui/icons-material';
-import NavigationIcon from '@mui/icons-material/Navigation';
+import { Refresh as RefreshIcon, Navigation as NavigationIcon } from '@mui/icons-material';
 import InfoBox from './InfoBox2';
 import compassSvg from '../weather-icons/compass.svg';
 import { useTranslation } from 'react-i18next';
 import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
-
-const WindContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: theme.spacing(3),
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[3],
-  width: '100%',
-  maxWidth: '800px',
-  backgroundColor: theme.palette.background.paper,
-  position: 'relative',
-  '&:hover': {
-    boxShadow: theme.shadows[6],
-  },
-}));
 
 const CompassContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -69,8 +52,8 @@ const CompassPoints = styled('div')(({ theme }) => ({
 
 const DirectionNeedle = styled('div')(({ theme, direction }) => ({
   position: 'absolute',
-  top: '55%',
-  left: '53%',
+  top: '42%',
+  left: '45%',
   width: '0',
   height: '0',
   borderLeft: '10px solid transparent',
@@ -95,11 +78,11 @@ const WindSpeedBar = styled(Box)(({ theme, speed }) => ({
     display: 'block',
     width: `${speed}%`,
     height: '100%',
-    background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+    background: `linear-gradient(to right, ${theme.palette.success.light}, ${theme.palette.warning.main}, ${theme.palette.error.main})`,
     transition: 'width 0.3s ease-in-out',
   },
   '&::before': {
-    content: `"${speed}%"`,
+    content: `"${speed}% (${(speed / 100 * 50).toFixed(1)} km/h)"`, // Added speed in km/h
     position: 'absolute',
     top: '-25px',
     left: `${speed}%`,
@@ -122,14 +105,16 @@ const Wind = ({ lat, lon }) => {
   const [error, setError] = useState(null);
 
   const fetchWindData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     try {
       const data = await fetchOpenWeatherMapData(lat, lon);
       const { speed, deg } = data.wind;
       setWindData({ speed, direction: deg });
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching wind data:', error);
       setError(t('error_fetching_wind_data'));
+    } finally {
       setLoading(false);
     }
   }, [lat, lon, t]);
@@ -139,7 +124,6 @@ const Wind = ({ lat, lon }) => {
   }, [fetchWindData]);
 
   const handleRefreshClick = () => {
-    setLoading(true);
     fetchWindData();
   };
 
@@ -158,7 +142,16 @@ const Wind = ({ lat, lon }) => {
   }
 
   return (
-    <WindContainer>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      position: 'relative',
+      width: '100%',
+      padding: theme.spacing(2.3),
+      minHeight: '64vh',
+      backgroundColor: theme.palette.background.paper,
+    }}>
       <Tooltip title={t('refresh')} arrow>
         <IconButton
           onClick={handleRefreshClick}
@@ -182,9 +175,9 @@ const Wind = ({ lat, lon }) => {
           <div className="W">{t('west')}</div>
           <div className="NW">{t('northwest')}</div>
         </CompassPoints>
-        <DirectionNeedle theme={theme} direction={windData.direction} />
+        <DirectionNeedle direction={windData.direction} />
       </CompassContainer>
-      <WindSpeedBar theme={theme} speed={speedPercentage} />
+      <WindSpeedBar speed={speedPercentage} />
       <Grid container spacing={2} sx={{ width: '100%', marginTop: theme.spacing(2) }}>
         <Grid item xs={12} sm={6}>
           <InfoBox icon={<NavigationIcon sx={{ fontSize: 40 }} />} label={t('speed')} value={`${windData.speed} km/h`} />
@@ -193,7 +186,7 @@ const Wind = ({ lat, lon }) => {
           <InfoBox icon={<NavigationIcon sx={{ fontSize: 40 }} />} label={t('direction')} value={`${windData.direction}°`} />
         </Grid>
       </Grid>
-    </WindContainer>
+    </Box>
   );
 };
 

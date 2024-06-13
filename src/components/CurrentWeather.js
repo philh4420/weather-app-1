@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Box, Typography, Card, CardContent, Grid, Skeleton, IconButton, Tooltip, useTheme,
+  Box, Typography, CircularProgress, Grid, Tooltip, IconButton, useTheme,
 } from '@mui/material';
 import {
   Thermostat as ThermostatIcon, Opacity as OpacityIcon, Speed as SpeedIcon,
@@ -13,7 +13,28 @@ import {
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
-import InfoBox from './InfoBox2';
+import InfoBox from './InfoBox3';
+import { styled } from '@mui/system';
+
+const ScrollableBox = styled(Box)(({ theme }) => ({
+  width: '100%',
+  padding: theme.spacing(3),
+  maxHeight: '68vh',
+  overflowY: 'auto',
+  backgroundColor: theme.palette.background.paper,
+  '&::-webkit-scrollbar': {
+    width: '10px',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: theme.palette.scrollbar.thumb,
+    borderRadius: '10px',
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    backgroundColor: theme.palette.scrollbar.thumbHover,
+  },
+  msOverflowStyle: 'auto',
+  scrollbarWidth: 'auto',
+}));
 
 const iconMapping = {
   "01d": "clear-day.svg",
@@ -73,22 +94,9 @@ const CurrentWeather = ({ lat, lon }) => {
 
   if (loading) {
     return (
-      <Card sx={{ width: '100%', mt: 2, borderRadius: theme.shape.borderRadius, boxShadow: theme.shadows[4] }}>
-        <CardContent>
-          <Skeleton variant="text" width={300} height={40} sx={{ margin: '0 auto', mb: 3 }} />
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6} lg={4}>
-              <Skeleton variant="rectangular" width="100%" height={200} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <Skeleton variant="rectangular" width="100%" height={200} />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <Skeleton variant="rectangular" width="100%" height={200} />
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100%' }}>
+        <CircularProgress />
+      </Box>
     );
   }
 
@@ -102,9 +110,7 @@ const CurrentWeather = ({ lat, lon }) => {
 
   const {
     weather,
-    main: {
-      temp, feels_like, temp_min, temp_max, humidity, pressure, sea_level, grnd_level,
-    },
+    main: { temp, feels_like, temp_min, temp_max, humidity, pressure, sea_level, grnd_level },
     wind: { speed, gust, deg },
     clouds: { all: cloudiness },
     visibility, rain, snow, sys: { sunrise, sunset }, name,
@@ -113,19 +119,10 @@ const CurrentWeather = ({ lat, lon }) => {
   const weatherDescription = weather[0].description.toLowerCase().replace(/ /g, '_');
 
   return (
-    <Card sx={{
-      width: '100%',
-      borderRadius: theme.shape.borderRadius,
-      boxShadow: theme.shadows[4],
-      position: 'relative',
-      padding: theme.spacing(3),
-    }}>
+    <ScrollableBox>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
         <Tooltip title={t('refresh')} arrow>
-          <IconButton
-            onClick={refreshWeatherData}
-            sx={{ color: theme.palette.primary.main }}
-          >
+          <IconButton onClick={refreshWeatherData} sx={{ color: theme.palette.primary.main }}>
             <RefreshIcon />
           </IconButton>
         </Tooltip>
@@ -139,9 +136,9 @@ const CurrentWeather = ({ lat, lon }) => {
       </Typography>
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ mb: 2 }}>
         {weatherIcon && (
-          <img src={weatherIcon} alt={weather[0].description} className="weather-icon" />
+          <img src={weatherIcon} alt={weather[0].description} className="weather-icon" style={{ marginRight: theme.spacing(2) }} />
         )}
-        <Typography variant="h6" sx={{ fontWeight: theme.typography.h6.fontWeight, ml: 2 }}>
+        <Typography variant="h6" sx={{ fontWeight: theme.typography.h6.fontWeight }}>
           {t(weatherDescription, { defaultValue: weather[0].description })}
         </Typography>
       </Box>
@@ -233,7 +230,7 @@ const CurrentWeather = ({ lat, lon }) => {
           </Grid>
         )}
       </Grid>
-    </Card>
+    </ScrollableBox>
   );
 };
 

@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { alpha } from '@mui/system';
 
 // Common settings for all themes
 const commonSettings = {
@@ -44,7 +45,7 @@ const commonSettings = {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: 18,
           textTransform: 'none',
           padding: '12px 24px',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
@@ -57,7 +58,7 @@ const commonSettings = {
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: 18,
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
           '&:hover': {
             boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
@@ -110,6 +111,22 @@ const commonSettings = {
         },
       },
     },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'inherit',
+          borderRadius: 18,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: '#6c757d',
+        },
+      },
+    },
   },
 };
 
@@ -132,12 +149,23 @@ const darkTheme = createTheme({
       primary: '#ffffff',
       secondary: '#b0b0b5',
     },
+    success: {
+      main: '#34c759',
+      light: alpha('#34c759', 0.6),
+    },
+    warning: {
+      main: '#ffcc00',
+    },
+    error: {
+      main: '#ff3b30',
+    },
     scrollbar: {
       thumb: '#888',
       thumbHover: '#555',
     },
   },
   components: {
+    ...commonSettings.components,
     MuiSelect: {
       styleOverrides: {
         select: {
@@ -161,11 +189,27 @@ const darkTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: 18,
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
           '&:hover': {
             boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
           },
+        },
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#2c2c2e',
+          borderRadius: 18,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: '#b0b0b5',
         },
       },
     },
@@ -191,12 +235,23 @@ const lightTheme = createTheme({
       primary: '#1c1c1e',
       secondary: '#2c2c2e',
     },
+    success: {
+      main: '#34c759',
+      light: alpha('#34c759', 0.6),
+    },
+    warning: {
+      main: '#ffcc00',
+    },
+    error: {
+      main: '#ff3b30',
+    },
     scrollbar: {
       thumb: '#007aff',
       thumbHover: '#555',
     },
   },
   components: {
+    ...commonSettings.components,
     MuiSelect: {
       styleOverrides: {
         select: {
@@ -220,7 +275,7 @@ const lightTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: 18,
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
           '&:hover': {
             boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
@@ -228,7 +283,24 @@ const lightTheme = createTheme({
         },
       },
     },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#ffffff',
+          borderRadius: 18,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: '#6c757d',
+        },
+      },
+    },
   },
 });
 
+// Exporting the themes
 export { darkTheme, lightTheme };
