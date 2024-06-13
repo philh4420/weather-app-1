@@ -10,13 +10,9 @@ import {
   InputLabel,
   CircularProgress,
   Skeleton,
-  IconButton,
-  Tooltip,
   useTheme,
 } from '@mui/material';
-import { alpha } from '@mui/system';
 import { useTranslation } from 'react-i18next';
-import { Refresh as RefreshIcon } from '@mui/icons-material';
 import CurrentWeather from './CurrentWeather';
 import HourlyForecast from './HourlyForecast';
 import FiveDayForecast from './FiveDayForecast';
@@ -111,24 +107,6 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
           position: 'relative',
         }}
       >
-        <Tooltip title={t('refresh')} arrow>
-          <IconButton
-            onClick={getLocation}
-            sx={{
-              position: 'absolute',
-              top: 16,
-              right: 16,
-              zIndex: 1,
-              color: theme.palette.primary.main,
-              backgroundColor: alpha(theme.palette.primary.main, 0.1),
-              '&:hover': {
-                backgroundColor: alpha(theme.palette.primary.main, 0.2),
-              },
-            }}
-          >
-            <RefreshIcon />
-          </IconButton>
-        </Tooltip>
 
         <Typography
           variant="h4"
@@ -158,26 +136,6 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
               }}
             >
               {t('toggle_dark_mode')}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{
-                marginBottom: '32px',
-                maxWidth: 400,
-                padding: '12px 24px',
-                transition: 'background-color 0.3s, box-shadow 0.3s',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                borderRadius: theme.shape.borderRadius,
-                '&:hover': {
-                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
-                },
-              }}
-              onClick={getLocation}
-            >
-              {t('get_current_location')}
             </Button>
           </Grid>
           <Grid item>
@@ -243,6 +201,25 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
             </FormControl>
           </Grid>
         </Grid>
+
+        <Button
+          variant="contained"
+          fullWidth
+          sx={{
+            marginBottom: '32px',
+            maxWidth: 400,
+            padding: '12px 24px',
+            transition: 'background-color 0.3s, box-shadow 0.3s',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            borderRadius: theme.shape.borderRadius,
+            '&:hover': {
+              boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
+            },
+          }}
+          onClick={getLocation}
+        >
+          {t('get_current_location')}
+        </Button>
       </Box>
 
       <Box

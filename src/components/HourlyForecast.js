@@ -7,6 +7,7 @@ import {
   Tooltip,
   useTheme,
 } from '@mui/material';
+import { alpha } from '@mui/system';
 import { useTranslation } from 'react-i18next';
 import { fetchWeatherAPIData } from '../api/weatherAPI';
 import { styled } from '@mui/system';
@@ -103,7 +104,17 @@ const HourlyForecast = ({ lat, lon }) => {
       <Tooltip title={t('refresh')} arrow>
         <IconButton
           onClick={refreshForecastData}
-          sx={{ position: 'absolute', top: 16, right: 16, zIndex: 1, color: theme.palette.primary.main }}
+          sx={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 1,
+            color: theme.palette.primary.main,
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            '&:hover': {
+              backgroundColor: alpha(theme.palette.primary.main, 0.2),
+            },
+          }}
         >
           <RefreshIcon />
         </IconButton>

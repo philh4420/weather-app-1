@@ -14,27 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
 import InfoBox from './InfoBox3';
-import { styled } from '@mui/system';
-
-const ScrollableBox = styled(Box)(({ theme }) => ({
-  width: '100%',
-  padding: theme.spacing(3),
-  maxHeight: '68vh',
-  overflowY: 'auto',
-  backgroundColor: theme.palette.background.paper,
-  '&::-webkit-scrollbar': {
-    width: '10px',
-  },
-  '&::-webkit-scrollbar-thumb': {
-    backgroundColor: theme.palette.scrollbar.thumb,
-    borderRadius: '10px',
-  },
-  '&::-webkit-scrollbar-thumb:hover': {
-    backgroundColor: theme.palette.scrollbar.thumbHover,
-  },
-  msOverflowStyle: 'auto',
-  scrollbarWidth: 'auto',
-}));
+import { alpha } from '@mui/system';
 
 const iconMapping = {
   "01d": "clear-day.svg",
@@ -119,14 +99,52 @@ const CurrentWeather = ({ lat, lon }) => {
   const weatherDescription = weather[0].description.toLowerCase().replace(/ /g, '_');
 
   return (
-    <ScrollableBox>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
-        <Tooltip title={t('refresh')} arrow>
-          <IconButton onClick={refreshWeatherData} sx={{ color: theme.palette.primary.main }}>
-            <RefreshIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        position: 'relative',
+        width: '100%',
+        padding: theme.spacing(3),
+        minHeight: '60vh',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[2],
+        borderRadius: theme.shape.borderRadius,
+        overflowY: 'auto',
+        maxHeight: '65vh',
+        '&::-webkit-scrollbar': {
+          width: '10px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: theme.palette.scrollbar.thumb,
+          borderRadius: '10px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: theme.palette.scrollbar.thumbHover,
+        },
+        msOverflowStyle: 'auto',
+        scrollbarWidth: 'auto',
+      }}
+    >
+      <Tooltip title={t('refresh')} arrow>
+        <IconButton
+          onClick={refreshWeatherData}
+          sx={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 1,
+            color: theme.palette.primary.main,
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            '&:hover': {
+              backgroundColor: alpha(theme.palette.primary.main, 0.2),
+            },
+          }}
+        >
+          <RefreshIcon />
+        </IconButton>
+      </Tooltip>
       <Typography
         variant="h5"
         gutterBottom
@@ -230,7 +248,7 @@ const CurrentWeather = ({ lat, lon }) => {
           </Grid>
         )}
       </Grid>
-    </ScrollableBox>
+    </Box>
   );
 };
 

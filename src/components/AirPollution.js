@@ -7,31 +7,10 @@ import {
   FilterDrama as FilterDramaIcon, Whatshot as WhatshotIcon, LocalFireDepartment as LocalFireDepartmentIcon,
   History as HistoryIcon, Refresh as RefreshIcon
 } from '@mui/icons-material';
-
+import { alpha } from '@mui/system';
 import { useTranslation } from 'react-i18next';
 import { fetchAirPollutionData, fetchHistoricalAirPollutionData } from '../api/openWeatherMapAPI';
 import InfoBox from './InfoBox2';
-import { styled } from '@mui/system';
-
-const ScrollableBox = styled(Box)(({ theme }) => ({
-  width: '100%',
-  padding: theme.spacing(3),
-  maxHeight: '68vh',
-  overflowY: 'auto',
-  backgroundColor: theme.palette.background.paper,
-  '&::-webkit-scrollbar': {
-    width: '10px',
-  },
-  '&::-webkit-scrollbar-thumb': {
-    backgroundColor: theme.palette.scrollbar.thumb,
-    borderRadius: '10px',
-  },
-  '&::-webkit-scrollbar-thumb:hover': {
-    backgroundColor: theme.palette.scrollbar.thumbHover,
-  },
-  msOverflowStyle: 'auto',
-  scrollbarWidth: 'auto',
-}));
 
 const AirPollution = ({ lat, lon }) => {
   const { t } = useTranslation();
@@ -136,14 +115,52 @@ const AirPollution = ({ lat, lon }) => {
   });
 
   return (
-    <ScrollableBox>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
-        <Tooltip title={t('refresh')} arrow>
-          <IconButton onClick={refreshData} sx={{ color: theme.palette.primary.main }}>
-            <RefreshIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        position: 'relative',
+        width: '100%',
+        padding: theme.spacing(3),
+        minHeight: '60vh',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[2],
+        borderRadius: theme.shape.borderRadius,
+        overflowY: 'auto',
+        maxHeight: '65vh',
+        '&::-webkit-scrollbar': {
+          width: '10px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: theme.palette.scrollbar.thumb,
+          borderRadius: '10px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: theme.palette.scrollbar.thumbHover,
+        },
+        msOverflowStyle: 'auto',
+        scrollbarWidth: 'auto',
+      }}
+    >
+      <Tooltip title={t('refresh')} arrow>
+        <IconButton
+          onClick={refreshData}
+          sx={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 1,
+            color: theme.palette.primary.main,
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            '&:hover': {
+              backgroundColor: alpha(theme.palette.primary.main, 0.2),
+            },
+          }}
+        >
+          <RefreshIcon />
+        </IconButton>
+      </Tooltip>
       <Typography variant="h5" gutterBottom sx={{ fontWeight: theme.typography.h5.fontWeight, textAlign: 'center', mb: theme.spacing(3) }}>
         {t('air_quality_index')}
       </Typography>
@@ -184,7 +201,7 @@ const AirPollution = ({ lat, lon }) => {
           </Grid>
         ))}
       </Grid>
-    </ScrollableBox>
+    </Box>
   );
 };
 

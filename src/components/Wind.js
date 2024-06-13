@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Box, Typography, useTheme, IconButton, Tooltip, CircularProgress, Grid } from '@mui/material';
 import { styled } from '@mui/system';
+import { alpha } from '@mui/system';
 import { Refresh as RefreshIcon, Navigation as NavigationIcon } from '@mui/icons-material';
 import InfoBox from './InfoBox2';
 import compassSvg from '../weather-icons/compass.svg';
 import { useTranslation } from 'react-i18next';
 import { fetchOpenWeatherMapData } from '../api/openWeatherMapAPI';
+import '../components/icons.css';
 
 const CompassContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -18,10 +20,6 @@ const CompassContainer = styled(Box)(({ theme }) => ({
   borderRadius: '50%',
   boxShadow: theme.shadows[2],
   backgroundColor: theme.palette.background.paper,
-}));
-
-const CompassIcon = styled('img')(({ theme }) => ({
-  marginBottom: theme.spacing(2),
 }));
 
 const CompassPoints = styled('div')(({ theme }) => ({
@@ -142,28 +140,45 @@ const Wind = ({ lat, lon }) => {
   }
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      position: 'relative',
-      width: '100%',
-      padding: theme.spacing(2.3),
-      minHeight: '64vh',
-      backgroundColor: theme.palette.background.paper,
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        position: 'relative',
+        width: '100%',
+        padding: theme.spacing(3),
+        minHeight: '50vh',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[2],
+        borderRadius: theme.shape.borderRadius,
+      }}
+    >
       <Tooltip title={t('refresh')} arrow>
         <IconButton
           onClick={handleRefreshClick}
-          sx={{ position: 'absolute', top: 16, right: 16, zIndex: 1, color: theme.palette.primary.main }}
+          sx={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+            zIndex: 1,
+            color: theme.palette.primary.main,
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            '&:hover': {
+              backgroundColor: alpha(theme.palette.primary.main, 0.2),
+            },
+          }}
         >
           <RefreshIcon />
         </IconButton>
       </Tooltip>
-      <Typography variant="h6" sx={{ fontWeight: 'bold', color: theme.palette.text.primary, marginTop: theme.spacing(2) }}>
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: 'bold', color: theme.palette.text.primary, marginTop: theme.spacing(2) }}
+      >
         {t('wind_speed')}
       </Typography>
-      <CompassIcon src={compassSvg} alt={t('compass')} className="weather-icon" />
+      <img src={compassSvg} alt={t('compass')} className="weather-icon" />
       <CompassContainer>
         <CompassPoints>
           <div className="N">{t('north')}</div>
