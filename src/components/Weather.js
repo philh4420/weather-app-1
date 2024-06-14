@@ -107,7 +107,6 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
           position: 'relative',
         }}
       >
-
         <Typography
           variant="h4"
           gutterBottom
@@ -139,10 +138,30 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
             </Button>
           </Grid>
           <Grid item>
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{
+                marginBottom: '32px',
+                maxWidth: 400,
+                padding: '12px 24px',
+                transition: 'background-color 0.3s, box-shadow 0.3s',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                borderRadius: theme.shape.borderRadius,
+                '&:hover': {
+                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
+                },
+              }}
+              onClick={getLocation}
+            >
+              {t('get_current_location')}
+            </Button>
+          </Grid>
+          <Grid spacing={2} justifyContent="center" sx={{ marginLeft: '16px', marginTop: '15px'}}>
+          <Grid item>
             <FormControl
               variant="outlined"
               sx={{
-                marginBottom: '16px',
                 minWidth: 200,
                 backgroundColor: theme.palette.background.paper,
                 borderRadius: theme.shape.borderRadius,
@@ -201,25 +220,9 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
             </FormControl>
           </Grid>
         </Grid>
+        </Grid>
 
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{
-            marginBottom: '32px',
-            maxWidth: 400,
-            padding: '12px 24px',
-            transition: 'background-color 0.3s, box-shadow 0.3s',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            borderRadius: theme.shape.borderRadius,
-            '&:hover': {
-              boxShadow: '0 6px 18px rgba(0, 0, 0, 0.15)',
-            },
-          }}
-          onClick={getLocation}
-        >
-          {t('get_current_location')}
-        </Button>
+
       </Box>
 
       <Box
@@ -266,14 +269,10 @@ const Weather = ({ handleThemeChange, handleLanguageChange, currentLanguage }) =
                 <AirPollution lat={location.lat} lon={location.lon} sx={{ height: '100%' }} />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Box sx={{ flex: 1 }}>
-                  <FeelsLike lat={location.lat} lon={location.lon} />
-                </Box>
+                <FeelsLike lat={location.lat} lon={location.lon} />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Box sx={{ flex: 1 }}>
-                  <Wind lat={location.lat} lon={location.lon} />
-                </Box>
+                <Wind lat={location.lat} lon={location.lon} />
               </Grid>
               <Grid item xs={12}>
                 <FiveDayForecast lat={location.lat} lon={location.lon} />
